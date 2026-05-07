@@ -1,0 +1,26 @@
+.country-card {
+  height: 100%;
+  overflow: hidden;
+  border-radius: 18px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+
+  img {
+    height: 160px;
+    object-fit: cover;
+    background: #e5e7eb;
+  }
+
+  mat-card-content {
+    padding-top: 16px;
+  }
+
+  p {
+    margin: 6px 0;
+  }
+}

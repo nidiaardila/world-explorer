@@ -1,1 +1,24 @@
-<p>country-card works!</p>
+<mat-card class="country-card">
+  <img
+    mat-card-image
+    [src]="country.flags.svg || country.flags.png"
+    [alt]="country.flags.alt || 'Bandera de ' + country.name.common"
+  />
+
+  <mat-card-header>
+    <mat-card-title>{{ country.name.common }}</mat-card-title>
+    <mat-card-subtitle>{{ country.region }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p><strong>Capital:</strong> {{ capital }}</p>
+    <p><strong>Población:</strong> {{ population }}</p>
+    <p><strong>Código:</strong> {{ country.cca3 }}</p>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <a mat-button color="primary" [routerLink]="['/country', country.cca3]">
+      Ver detalle
+    </a>
+  </mat-card-actions>
+</mat-card>

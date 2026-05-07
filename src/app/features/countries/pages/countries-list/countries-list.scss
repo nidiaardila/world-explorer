@@ -1,0 +1,52 @@
+.page-header {
+  margin-bottom: 24px;
+  padding: 32px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #0f172a, #1d4ed8);
+  color: #ffffff;
+
+  h1 {
+    margin: 0;
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1;
+  }
+
+  p {
+    max-width: 680px;
+    margin: 12px 0 0;
+    color: #dbeafe;
+  }
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 12px;
+  font-weight: 700;
+  color: #bfdbfe;
+}
+
+.results-count {
+  margin: 0 0 16px;
+  color: #4b5563;
+  font-weight: 600;
+}
+
+.countries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 22px;
+}
+
+.empty-state {
+  padding: 48px 24px;
+  text-align: center;
+  border-radius: 20px;
+  background: #ffffff;
+  color: #4b5563;
+
+  h2 {
+    margin-top: 0;
+    color: #111827;
+  }
+}

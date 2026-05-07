@@ -1,1 +1,40 @@
-<p>countries-filter works!</p>
+<section class="filters">
+  <mat-form-field appearance="outline">
+    <mat-label>Buscar país</mat-label>
+    <input
+      matInput
+      [ngModel]="searchTerm"
+      (ngModelChange)="searchTermChange.emit($event)"
+      placeholder="Spain, Colombia, Chile..."
+    />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Región</mat-label>
+    <mat-select
+      [ngModel]="selectedRegion"
+      (ngModelChange)="selectedRegionChange.emit($event)"
+    >
+      @for (region of regions; track region.value) {
+        <mat-option [value]="region.value">
+          {{ region.label }}
+        </mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Ordenar por</mat-label>
+    <mat-select
+      [ngModel]="sortBy"
+      (ngModelChange)="sortByChange.emit($event)"
+    >
+      @for (option of sortOptions; track option.value) {
+        <mat-option [value]="option.value">
+          {{ option.label }}
+        </mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</section>

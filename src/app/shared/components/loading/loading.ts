@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-loading',
-  imports: [],
+  imports: [MatProgressSpinnerModule],
   templateUrl: './loading.html',
-  styleUrl: './loading.scss',
+  styleUrl: './loading.scss'
 })
-export class Loading {
-
-}
+export class Loading {}
