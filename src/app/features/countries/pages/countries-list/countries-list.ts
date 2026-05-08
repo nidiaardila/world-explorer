@@ -1,6 +1,9 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+
 import { CountriesService } from '../../../../core/services/countries';
+import { FavoritesService } from '../../../../core/services/favorites';
 import { Country } from '../../../../core/models/country.model';
 import { CountryCard } from '../../components/country-card/country-card';
 import {
@@ -23,7 +26,9 @@ import { ErrorMessage } from '../../../../shared/components/error-message/error-
   styleUrl: './countries-list.scss'
 })
 export class CountriesList implements OnInit {
+  private readonly route = inject(ActivatedRoute);
   private readonly countriesService = inject(CountriesService);
+  private readonly favoritesService = inject(FavoritesService);
 
   readonly countries = signal<Country[]>([]);
   readonly loading = signal(false);
@@ -32,11 +37,24 @@ export class CountriesList implements OnInit {
   readonly searchTerm = signal('');
   readonly selectedRegion = signal('all');
   readonly sortBy = signal<SortBy>('name-asc');
+  readonly showOnlyFavorites = signal(false);
+
+  readonly pageTitle = computed(() =>
+    this.showOnlyFavorites() ? 'Tus países favoritos' : 'Explora países del mundo'
+  );
+
+  readonly pageDescription = computed(() =>
+    this.showOnlyFavorites()
+      ? 'Aquí verás los países que marcaste como favoritos.'
+      : 'Busca, filtra y ordena países por región, nombre y población.'
+  );
 
   readonly filteredCountries = computed(() => {
     const term = this.searchTerm().trim().toLowerCase();
     const region = this.selectedRegion();
     const sortBy = this.sortBy();
+    const favoriteCodes = this.favoritesService.favoriteCodes();
+    const onlyFavorites = this.showOnlyFavorites();
 
     const filtered = this.countries().filter((country) => {
       const name = country.name.common.toLowerCase();
@@ -47,7 +65,10 @@ export class CountriesList implements OnInit {
 
       const matchesRegion = region === 'all' || country.region === region;
 
-      return matchesName && matchesRegion;
+      const matchesFavorites =
+        !onlyFavorites || favoriteCodes.includes(country.cca3);
+
+      return matchesName && matchesRegion && matchesFavorites;
     });
 
     return [...filtered].sort((a, b) => {
@@ -69,6 +90,10 @@ export class CountriesList implements OnInit {
   });
 
   ngOnInit(): void {
+    this.route.data.subscribe((data) => {
+      this.showOnlyFavorites.set(Boolean(data['onlyFavorites']));
+    });
+
     this.loadCountries();
   }
 
@@ -81,10 +106,19 @@ export class CountriesList implements OnInit {
         this.countries.set(countries);
         this.loading.set(false);
       },
-      error: () => {
+      error: (error) => {
+        console.error('Error cargando países:', error);
         this.error.set('No pudimos cargar los países. Intenta de nuevo.');
         this.loading.set(false);
       }
     });
+  }
+
+  isFavorite(code: string): boolean {
+    return this.favoritesService.isFavorite(code);
+  }
+
+  toggleFavorite(code: string): void {
+    this.favoritesService.toggleFavorite(code);
   }
 }

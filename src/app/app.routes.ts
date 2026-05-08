@@ -5,15 +5,21 @@ import { CountryDetail } from './features/countries/pages/country-detail/country
 export const routes: Routes = [
   {
     path: '',
-    component: CountriesList
+    component: CountriesList,
+    data: {
+      onlyFavorites: false
+    }
+  },
+  {
+    path: 'favorites',
+    component: CountriesList,
+    data: {
+      onlyFavorites: true
+    }
   },
   {
     path: 'country/:code',
     component: CountryDetail
-  },
-  {
-    path: 'favorites',
-    redirectTo: ''
   },
   {
     path: '**',

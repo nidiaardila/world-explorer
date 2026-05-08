@@ -1,9 +1,21 @@
 <mat-card class="country-card">
-  <img
-    mat-card-image
-    [src]="country.flags.svg || country.flags.png"
-    [alt]="country.flags.alt || 'Bandera de ' + country.name.common"
-  />
+  <div class="flag-container">
+    <img
+      mat-card-image
+      [src]="country.flags.svg || country.flags.png"
+      [alt]="country.flags.alt || 'Bandera de ' + country.name.common"
+    />
+
+    <button
+      mat-icon-button
+      class="favorite-button"
+      type="button"
+      [attr.aria-label]="favorite ? 'Quitar de favoritos' : 'Agregar a favoritos'"
+      (click)="onToggleFavorite()"
+    >
+      <mat-icon>{{ favorite ? 'favorite' : 'favorite_border' }}</mat-icon>
+    </button>
+  </div>
 
   <mat-card-header>
     <mat-card-title>{{ country.name.common }}</mat-card-title>

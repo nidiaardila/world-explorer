@@ -1,10 +1,8 @@
 <section class="page-header">
   <div>
     <p class="eyebrow">REST Countries API</p>
-    <h1>Explora países del mundo</h1>
-    <p>
-      Busca, filtra y ordena países por región, nombre y población.
-    </p>
+    <h1>{{ pageTitle() }}</h1>
+    <p>{{ pageDescription() }}</p>
   </div>
 </section>
 
@@ -28,13 +26,22 @@
 
   @if (filteredCountries().length === 0) {
     <div class="empty-state">
-      <h2>No se encontraron países</h2>
-      <p>Prueba con otro nombre o cambia los filtros.</p>
+      @if (showOnlyFavorites()) {
+        <h2>Aún no tienes favoritos</h2>
+        <p>Marca países con el corazón para verlos aquí.</p>
+      } @else {
+        <h2>No se encontraron países</h2>
+        <p>Prueba con otro nombre o cambia los filtros.</p>
+      }
     </div>
   } @else {
     <div class="countries-grid">
       @for (country of filteredCountries(); track country.cca3) {
-        <app-country-card [country]="country"></app-country-card>
+        <app-country-card
+          [country]="country"
+          [favorite]="isFavorite(country.cca3)"
+          (toggleFavorite)="toggleFavorite($event)"
+        ></app-country-card>
       }
     </div>
   }

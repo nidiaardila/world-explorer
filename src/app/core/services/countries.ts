@@ -11,36 +11,17 @@ export class CountriesService {
 
   private readonly apiUrl = 'https://restcountries.com/v3.1';
 
-  private readonly fields = [
-    'name',
-    'flags',
-    'capital',
-    'population',
-    'region',
-    'subregion',
-    'languages',
-    'currencies',
-    'cca3',
-    'area',
-    'maps',
-    'borders'
-  ].join(',');
+  private readonly listFields =
+    'name,flags,capital,population,region,subregion,cca3';
 
   getAllCountries(): Observable<Country[]> {
-    return this.http.get<Country[]>(`${this.apiUrl}/all`, {
-      params: {
-        fields: this.fields
-      }
-    });
+    const url = `${this.apiUrl}/all?fields=${this.listFields}`;
+    return this.http.get<Country[]>(url);
   }
 
   getCountryByCode(code: string): Observable<Country | undefined> {
     return this.http
-      .get<Country[]>(`${this.apiUrl}/alpha/${code}`, {
-        params: {
-          fields: this.fields
-        }
-      })
+      .get<Country[]>(`${this.apiUrl}/alpha/${code}`)
       .pipe(map((countries) => countries[0]));
   }
 }
