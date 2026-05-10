@@ -94,4 +94,9 @@ export class CountryDetail implements OnInit {
   get borders(): string[] {
     return this.country()?.borders || [];
   }
+
+  get coatOfArmsUrl(): string {
+  const coatOfArms = this.country()?.coatOfArms;
+  return coatOfArms?.svg || coatOfArms?.png || '';
+}
 }

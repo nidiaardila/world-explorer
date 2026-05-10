@@ -9,6 +9,11 @@ export interface CountryFlags {
   alt?: string;
 }
 
+export interface CountryCoatOfArms {
+  png?: string;
+  svg?: string;
+}
+
 export interface CountryCurrency {
   name: string;
   symbol?: string;
@@ -22,6 +27,7 @@ export interface CountryMaps {
 export interface Country {
   name: CountryName;
   flags: CountryFlags;
+  coatOfArms?: CountryCoatOfArms;
   capital?: string[];
   population: number;
   region: string;
