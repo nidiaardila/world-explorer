@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,11 +7,13 @@ import { Country } from '../../../../core/models/country.model';
 
 @Component({
   selector: 'app-country-card',
-  imports: [RouterLink, MatCardModule, MatButtonModule, MatIconModule],
+  imports: [MatCardModule, MatButtonModule, MatIconModule],
   templateUrl: './country-card.html',
   styleUrl: './country-card.scss'
 })
 export class CountryCard {
+  private readonly router = inject(Router);
+
   @Input({ required: true }) country!: Country;
   @Input() favorite = false;
 
@@ -25,7 +27,14 @@ export class CountryCard {
     return new Intl.NumberFormat('es-ES').format(this.country.population);
   }
 
-  onToggleFavorite(): void {
+  openDetail(): void {
+    this.router.navigate(['/country', this.country.cca3]);
+  }
+
+  onToggleFavorite(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+
     this.toggleFavorite.emit(this.country.cca3);
   }
 }

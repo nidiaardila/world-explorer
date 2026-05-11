@@ -1,11 +1,32 @@
 .filters {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr auto;
   gap: 16px;
   margin-bottom: 24px;
+  align-items: center;
 }
 
-@media (max-width: 900px) {
+.clear-button {
+  height: 56px;
+  border-radius: 12px;
+  white-space: nowrap;
+
+  mat-icon {
+    margin-right: 6px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .filters {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .clear-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
   .filters {
     grid-template-columns: 1fr;
   }

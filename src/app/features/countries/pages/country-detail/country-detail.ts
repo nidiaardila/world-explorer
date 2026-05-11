@@ -9,6 +9,7 @@ import { Country } from '../../../../core/models/country.model';
 import { CountriesService } from '../../../../core/services/countries';
 import { Loading } from '../../../../shared/components/loading/loading';
 import { ErrorMessage } from '../../../../shared/components/error-message/error-message';
+import { FavoritesService } from '../../../../core/services/favorites';
 
 @Component({
   selector: 'app-country-detail',
@@ -27,6 +28,7 @@ import { ErrorMessage } from '../../../../shared/components/error-message/error-
 export class CountryDetail implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly countriesService = inject(CountriesService);
+  private readonly favoritesService = inject(FavoritesService);
 
   readonly country = signal<Country | undefined>(undefined);
   readonly loading = signal(false);
@@ -98,5 +100,25 @@ export class CountryDetail implements OnInit {
   get coatOfArmsUrl(): string {
   const coatOfArms = this.country()?.coatOfArms;
   return coatOfArms?.svg || coatOfArms?.png || '';
+}
+
+isFavorite(): boolean {
+  const code = this.country()?.cca3;
+
+  if (!code) {
+    return false;
+  }
+
+  return this.favoritesService.isFavorite(code);
+}
+
+toggleFavorite(): void {
+  const code = this.country()?.cca3;
+
+  if (!code) {
+    return;
+  }
+
+  this.favoritesService.toggleFavorite(code);
 }
 }

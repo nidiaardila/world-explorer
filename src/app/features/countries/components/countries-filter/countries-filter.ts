@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -15,6 +16,7 @@ export type SortBy =
   selector: 'app-countries-filter',
   imports: [
     FormsModule,
+    MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -31,6 +33,7 @@ export class CountriesFilter {
   @Output() searchTermChange = new EventEmitter<string>();
   @Output() selectedRegionChange = new EventEmitter<string>();
   @Output() sortByChange = new EventEmitter<SortBy>();
+  @Output() clearFilters = new EventEmitter<void>();
 
   readonly regions = [
     { value: 'all', label: 'Todas las regiones' },

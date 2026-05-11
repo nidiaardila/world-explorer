@@ -1,4 +1,10 @@
-<mat-card class="country-card">
+<mat-card
+  class="country-card"
+  role="link"
+  tabindex="0"
+  (click)="openDetail()"
+  (keydown.enter)="openDetail()"
+>
   <div class="flag-container">
     <img
       mat-card-image
@@ -11,7 +17,7 @@
       class="favorite-button"
       type="button"
       [attr.aria-label]="favorite ? 'Quitar de favoritos' : 'Agregar a favoritos'"
-      (click)="onToggleFavorite()"
+      (click)="onToggleFavorite($event)"
     >
       <mat-icon>{{ favorite ? 'favorite' : 'favorite_border' }}</mat-icon>
     </button>
@@ -29,8 +35,9 @@
   </mat-card-content>
 
   <mat-card-actions align="end">
-    <a mat-button color="primary" [routerLink]="['/country', country.cca3]">
+    <span class="details-link">
       Ver detalle
-    </a>
+      <mat-icon>arrow_forward</mat-icon>
+    </span>
   </mat-card-actions>
 </mat-card>

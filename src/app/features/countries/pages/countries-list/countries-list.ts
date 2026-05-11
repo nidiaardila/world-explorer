@@ -1,6 +1,7 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 import { CountriesService } from '../../../../core/services/countries';
 import { FavoritesService } from '../../../../core/services/favorites';
@@ -16,11 +17,13 @@ import { ErrorMessage } from '../../../../shared/components/error-message/error-
 @Component({
   selector: 'app-countries-list',
   imports: [
-    MatButtonModule,
-    CountryCard,
-    CountriesFilter,
-    Loading,
-    ErrorMessage
+    RouterLink,
+  MatButtonModule,
+  MatIconModule,
+  CountryCard,
+  CountriesFilter,
+  Loading,
+  ErrorMessage
   ],
   templateUrl: './countries-list.html',
   styleUrl: './countries-list.scss'
@@ -48,6 +51,14 @@ export class CountriesList implements OnInit {
       ? 'Aquí verás los países que marcaste como favoritos.'
       : 'Busca, filtra y ordena países por región, nombre y población.'
   );
+
+  readonly totalFavoriteCountries = computed(() => {
+  const favoriteCodes = this.favoritesService.favoriteCodes();
+
+  return this.countries().filter((country) =>
+    favoriteCodes.includes(country.cca3)
+  ).length;
+});
 
   readonly filteredCountries = computed(() => {
     const term = this.searchTerm().trim().toLowerCase();
@@ -121,4 +132,10 @@ export class CountriesList implements OnInit {
   toggleFavorite(code: string): void {
     this.favoritesService.toggleFavorite(code);
   }
+
+  clearFilters(): void {
+  this.searchTerm.set('');
+  this.selectedRegion.set('all');
+  this.sortBy.set('name-asc');
+}
 }

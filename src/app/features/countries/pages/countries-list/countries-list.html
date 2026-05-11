@@ -13,6 +13,7 @@
   (searchTermChange)="searchTerm.set($event)"
   (selectedRegionChange)="selectedRegion.set($event)"
   (sortByChange)="sortBy.set($event)"
+  (clearFilters)="clearFilters()"
 ></app-countries-filter>
 
 @if (loading()) {
@@ -21,17 +22,34 @@
   <app-error-message [message]="error()"></app-error-message>
 } @else {
   <p class="results-count">
-    {{ filteredCountries().length }} países encontrados
+    @if (showOnlyFavorites()) {
+      Tienes {{ totalFavoriteCountries() }} países favoritos · Mostrando
+      {{ filteredCountries().length }}
+    } @else {
+      Mostrando {{ filteredCountries().length }} de {{ countries().length }} países
+    }
   </p>
 
   @if (filteredCountries().length === 0) {
     <div class="empty-state">
       @if (showOnlyFavorites()) {
-        <h2>Aún no tienes favoritos</h2>
-        <p>Marca países con el corazón para verlos aquí.</p>
+        <mat-icon>favorite_border</mat-icon>
+        <h2>Aún no tienes países favoritos</h2>
+        <p>
+          Haz clic en el corazón de cualquier país para guardarlo aquí.
+        </p>
+
+        <a mat-raised-button color="primary" routerLink="/">
+          Ver países
+        </a>
       } @else {
+        <mat-icon>search_off</mat-icon>
         <h2>No se encontraron países</h2>
         <p>Prueba con otro nombre o cambia los filtros.</p>
+
+        <button mat-stroked-button type="button" (click)="clearFilters()">
+          Limpiar filtros
+        </button>
       }
     </div>
   } @else {

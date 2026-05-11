@@ -37,4 +37,14 @@
       }
     </mat-select>
   </mat-form-field>
+
+  <button
+    mat-stroked-button
+    type="button"
+    class="clear-button"
+    (click)="clearFilters.emit()"
+  >
+    <mat-icon>restart_alt</mat-icon>
+    Limpiar
+  </button>
 </section>

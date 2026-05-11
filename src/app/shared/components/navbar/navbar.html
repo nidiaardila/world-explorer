@@ -1,11 +1,25 @@
-<mat-toolbar color="primary" class="navbar">
+<mat-toolbar class="navbar">
   <div class="brand" routerLink="/">
     <mat-icon>public</mat-icon>
     <span>World Explorer</span>
   </div>
 
   <nav>
-    <a mat-button routerLink="/">Países</a>
-    <a mat-button routerLink="/favorites">Favoritos</a>
+    <a
+      mat-button
+      routerLink="/"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      Países
+    </a>
+
+    <a
+      mat-button
+      routerLink="/favorites"
+      routerLinkActive="active-link"
+    >
+      Favoritos
+    </a>
   </nav>
 </mat-toolbar>

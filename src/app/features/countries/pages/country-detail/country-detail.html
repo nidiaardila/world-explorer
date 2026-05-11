@@ -4,7 +4,10 @@
   <app-error-message [message]="error()"></app-error-message>
 
   <div class="actions">
-    <a mat-button routerLink="/">Volver al listado</a>
+    <a mat-button routerLink="/">
+      <mat-icon>arrow_back</mat-icon>
+      Volver al listado
+    </a>
   </div>
 } @else if (country()) {
   <section class="detail-page">
@@ -26,8 +29,8 @@
         </div>
 
         @if (coatOfArmsUrl) {
-          <div class="coat-of-arms-wrapper">
-            <p>Escudo nacional</p>
+          <div class="coat-of-arms-card">
+            <p class="coat-title">Escudo nacional</p>
 
             <img
               class="coat-of-arms"
@@ -36,94 +39,170 @@
             />
           </div>
         }
+
+        <div class="media-badges">
+          <span class="badge badge-code">
+            {{ country()?.cca3 }}
+          </span>
+
+          <span class="badge badge-region">
+            <mat-icon>public</mat-icon>
+            {{ country()?.region }}
+          </span>
+        </div>
       </aside>
 
       <div class="country-info">
-        <p class="eyebrow">{{ country()?.region }}</p>
+        <div class="title-block">
+  <div class="title-row">
+    <div>
+      <h1>{{ country()?.name?.common }}</h1>
 
-        <h1>{{ country()?.name?.common }}</h1>
+      <p class="official-name">
+        {{ country()?.name?.official }}
+      </p>
+    </div>
 
-        <p class="official-name">
-          {{ country()?.name?.official }}
-        </p>
+    <button
+      mat-icon-button
+      type="button"
+      class="favorite-detail-button"
+      [attr.aria-label]="isFavorite() ? 'Quitar de favoritos' : 'Agregar a favoritos'"
+      (click)="toggleFavorite()"
+    >
+      <mat-icon>{{ isFavorite() ? 'favorite' : 'favorite_border' }}</mat-icon>
+    </button>
+  </div>
 
-        <div class="info-grid">
-          <div class="info-item">
-            <span>Capital</span>
-            <strong>{{ capital }}</strong>
-          </div>
+          <div class="location-line">
+            <mat-icon>place</mat-icon>
+            <span>{{ country()?.region }}</span>
 
-          <div class="info-item">
-            <span>Región</span>
-            <strong>{{ country()?.region }}</strong>
-          </div>
-
-          <div class="info-item">
-            <span>Subregión</span>
-            <strong>{{ country()?.subregion || 'No disponible' }}</strong>
-          </div>
-
-          <div class="info-item">
-            <span>Población</span>
-            <strong>{{ population }}</strong>
-          </div>
-
-          <div class="info-item">
-            <span>Área</span>
-            <strong>{{ area }}</strong>
-          </div>
-
-          <div class="info-item">
-            <span>Código</span>
-            <strong>{{ country()?.cca3 }}</strong>
+            @if (country()?.subregion) {
+              <span class="dot">•</span>
+              <span>{{ country()?.subregion }}</span>
+            }
           </div>
         </div>
 
-        <section class="chips-section">
-          <h2>Idiomas</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-icon">
+              <mat-icon>location_city</mat-icon>
+            </div>
+            <div class="info-content">
+              <span>Capital</span>
+              <strong>{{ capital }}</strong>
+            </div>
+          </div>
 
-          @if (languages.length > 0) {
-            <mat-chip-set>
-              @for (language of languages; track language) {
-                <mat-chip>{{ language }}</mat-chip>
-              }
-            </mat-chip-set>
-          } @else {
-            <p>No disponible</p>
-          }
-        </section>
+          <div class="info-item">
+            <div class="info-icon">
+              <mat-icon>groups</mat-icon>
+            </div>
+            <div class="info-content">
+              <span>Población</span>
+              <strong>{{ population }}</strong>
+            </div>
+          </div>
 
-        <section class="chips-section">
-          <h2>Monedas</h2>
+          <div class="info-item">
+            <div class="info-icon">
+              <mat-icon>straighten</mat-icon>
+            </div>
+            <div class="info-content">
+              <span>Área</span>
+              <strong>{{ area }}</strong>
+            </div>
+          </div>
 
-          @if (currencies.length > 0) {
-            <mat-chip-set>
-              @for (currency of currencies; track currency) {
-                <mat-chip>{{ currency }}</mat-chip>
-              }
-            </mat-chip-set>
-          } @else {
-            <p>No disponible</p>
-          }
-        </section>
+          <div class="info-item">
+            <div class="info-icon">
+              <mat-icon>tag</mat-icon>
+            </div>
+            <div class="info-content">
+              <span>Código</span>
+              <strong>{{ country()?.cca3 }}</strong>
+            </div>
+          </div>
 
-        <section class="chips-section">
-          <h2>Fronteras</h2>
+          <div class="info-item">
+            <div class="info-icon">
+              <mat-icon>travel_explore</mat-icon>
+            </div>
+            <div class="info-content">
+              <span>Subregión</span>
+              <strong>{{ country()?.subregion || 'No disponible' }}</strong>
+            </div>
+          </div>
 
-          @if (borders.length > 0) {
-            <mat-chip-set>
-              @for (border of borders; track border) {
-                <mat-chip>
-                  <a [routerLink]="['/country', border]">
-                    {{ border }}
-                  </a>
-                </mat-chip>
-              }
-            </mat-chip-set>
-          } @else {
-            <p>Este país no tiene fronteras terrestres registradas.</p>
-          }
-        </section>
+          <div class="info-item">
+            <div class="info-icon">
+              <mat-icon>flag</mat-icon>
+            </div>
+            <div class="info-content">
+              <span>Región</span>
+              <strong>{{ country()?.region }}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="extra-sections">
+          <section class="chips-section">
+            <div class="section-header">
+              <mat-icon>language</mat-icon>
+              <h2>Idiomas</h2>
+            </div>
+
+            @if (languages.length > 0) {
+              <mat-chip-set>
+                @for (language of languages; track language) {
+                  <mat-chip>{{ language }}</mat-chip>
+                }
+              </mat-chip-set>
+            } @else {
+              <p>No disponible</p>
+            }
+          </section>
+
+          <section class="chips-section">
+            <div class="section-header">
+              <mat-icon>payments</mat-icon>
+              <h2>Monedas</h2>
+            </div>
+
+            @if (currencies.length > 0) {
+              <mat-chip-set>
+                @for (currency of currencies; track currency) {
+                  <mat-chip>{{ currency }}</mat-chip>
+                }
+              </mat-chip-set>
+            } @else {
+              <p>No disponible</p>
+            }
+          </section>
+
+          <section class="chips-section">
+            <div class="section-header">
+              <mat-icon>share_location</mat-icon>
+              <h2>Fronteras</h2>
+            </div>
+
+            @if (borders.length > 0) {
+              <mat-chip-set>
+                @for (border of borders; track border) {
+                  <mat-chip>
+                    <a [routerLink]="['/country', border]">
+                      {{ border }}
+                    </a>
+                  </mat-chip>
+                }
+              </mat-chip-set>
+            } @else {
+              <p>Este país no tiene fronteras terrestres registradas.</p>
+            }
+          </section>
+        </div>
 
         <div class="detail-buttons">
           <a
