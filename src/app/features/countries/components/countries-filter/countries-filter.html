@@ -38,13 +38,15 @@
     </mat-select>
   </mat-form-field>
 
-  <button
-    mat-stroked-button
-    type="button"
-    class="clear-button"
-    (click)="clearFilters.emit()"
-  >
-    <mat-icon>restart_alt</mat-icon>
-    Limpiar
-  </button>
+  <div class="filters-actions">
+    <button
+      mat-flat-button
+      type="button"
+      class="clear-button"
+      (click)="clearFilters.emit()"
+    >
+      <mat-icon>restart_alt</mat-icon>
+      Limpiar
+    </button>
+  </div>
 </section>

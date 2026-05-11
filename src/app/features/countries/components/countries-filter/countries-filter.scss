@@ -3,22 +3,44 @@
   grid-template-columns: 2fr 1fr 1fr auto;
   gap: 16px;
   margin-bottom: 24px;
-  align-items: center;
+  align-items: start;
+}
+
+.filters-actions {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding-top: 6px;
 }
 
 .clear-button {
   height: 56px;
-  border-radius: 12px;
+  min-width: 140px;
+  padding: 0 20px;
+  border-radius: 16px;
   white-space: nowrap;
+  background: #eaf1ff !important;
+  color: #1d4ed8 !important;
+  font-weight: 700;
+  box-shadow: none !important;
 
   mat-icon {
     margin-right: 6px;
+  }
+
+  &:hover {
+    background: #dbe7ff !important;
   }
 }
 
 @media (max-width: 1100px) {
   .filters {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .filters-actions {
+    justify-content: stretch;
+    padding-top: 0;
   }
 
   .clear-button {
